@@ -1,0 +1,19 @@
+<HTML>
+    <head>
+        <title>Oreo Clicker</title>
+    </head>
+
+    <body>
+        <P>Score: <spen id="score">0</spen></P>
+        <img src="im/oero.png" onclick="addToScore(1)">
+
+        <script>
+            var score = 0;
+
+            function addToScore (amount) {
+                score = score + amount;
+                document.getElementById("score").innerHTML = score;
+            }
+        </script>
+    </body>
+</HTML>
