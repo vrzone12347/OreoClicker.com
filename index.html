@@ -129,6 +129,16 @@
                 <td id="amount"><span id="Grandmas">0</span></td>
             </tr>
         </table>
+        <table class="shopButton unselectable" onclick="buyFarm()">
+            <tr>
+                <td id="image"><img src="im/farm.png"></td>
+                <td id="nameAndCost">
+                    <p>Farm</p>
+                    <P><span id="farmcost">400</span> oero</P>
+                </td>
+                <td id="amount"><span id="farms">0</span></td>
+            </tr>
+        </table>
         <table class="shopButton unselectable" onclick="buyoven()">
             <tr>
                 <td id="image"><img src="im/oven.png"></td>
@@ -137,6 +147,26 @@
                     <P><span id="ovencost">1000</span> oero</P>
                 </td>
                 <td id="amount"><span id="ovens">0</span></td>
+            </tr>
+        </table>
+        <table class="shopButton unselectable" onclick="buyMine()">
+            <tr>
+                <td id="image"><img src="im/mine.png"></td>
+                <td id="nameAndCost">
+                    <p>Mine</p>
+                    <P><span id="minecost">2000</span> oero</P>
+                </td>
+                <td id="amount"><span id="mines">0</span></td>
+            </tr>
+        </table>
+        <table class="shopButton unselectable" onclick="buyFactory()">
+            <tr>
+                <td id="image"><img src="im/factory.png"></td>
+                <td id="nameAndCost">
+                    <p>Factory</p>
+                    <P><span id="factorycost">3000</span> oero</P>
+                </td>
+                <td id="amount"><span id="factorys">0</span></td>
             </tr>
         </table>
     </div>
@@ -149,8 +179,14 @@
         var cursors = 0;
         var Grandmacost = 100;
         var Grandmas = 0;
-        var ovencost = 1000
-        var ovens = 0
+        var farmcost = 400;
+        var farms = 0;
+        var ovencost = 1000;
+        var ovens = 0;
+        var mines = 0;
+        var minecost = 2000;
+        var factorys = 0;
+        var factorycost = 3000;
 
         function buyCursor() {
             if (score >= cursorCost) {
@@ -180,6 +216,20 @@
             }
         }
 
+        function buyFarm() {
+            if (score >= farmcost) {
+                score = score - farmcost;
+                farms = farms + 1;
+                farmcost = Math.round(farmcost * 1.15);
+
+                document.getElementById("score").innerHTML = score;
+                document.getElementById("farmcost").innerHTML = farmcost;
+                document.getElementById("farms").innerHTML = farms;
+                updateScorepersecond();
+
+            }
+        }
+
         function buyoven() {
             if (score >= ovencost) {
                 score = score - ovencost;
@@ -194,13 +244,41 @@
             }
         }
 
+        function buyMine() {
+            if (score >= minecost) {
+                score = score - minecost;
+                mines = mines + 1;
+                minecost = Math.round(minecost * 1.15);
+
+                document.getElementById("score").innerHTML = score;
+                document.getElementById("minecost").innerHTML = minecost;
+                document.getElementById("mines").innerHTML = mines;
+                updateScorepersecond();
+
+            }
+        }
+
+        function buyFactory() {
+            if (score >= minecost) {
+                score = score - factorycost;
+                factorys = factorys + 1;
+                factorycost = Math.round(factorycost * 1.15);
+
+                document.getElementById("score").innerHTML = score;
+                document.getElementById("factorycost").innerHTML = factorycost;
+                document.getElementById("factorys").innerHTML = factorys;
+                updateScorepersecond();
+
+            }
+        }
+
         function addToScore(amount) {
             score = score + amount;
             document.getElementById("score").innerHTML = score;
         }
 
         function updateScorepersecond() {
-            scorepersecond = cursors + Grandmas * 5 + ovens * 70;
+            scorepersecond = cursors + Grandmas * 5 + ovens * 70 + farms * 20 + mines * 100 + factorys * 200;
             document.getElementById("scorepersecond").innerHTML = scorepersecond;
         }
 
@@ -214,6 +292,12 @@
             if (typeof savedGame.Grandmas !== "undefined") Grandmas = savedGame.Grandmas;
             if (typeof savedGame.ovencost !== "undefined") ovencost = savedGame.ovencost;
             if (typeof savedGame.ovens !== "undefined") ovens = savedGame.ovens;
+            if (typeof savedGame.farms !== "undefined") farms = savedGame.farms;
+            if (typeof savedGame.farmcost !== "undefined") farmcost = savedGame.farmcost;
+            if (typeof savedGame.minecost !== "undefined") minecost = savedGame.minecost;
+            if (typeof savedGame.mines !== "undefined") mines = savedGame.mines;
+            if (typeof savedGame.factorycost !== "undefined") factorycost = savedGame.factorycost;
+            if (typeof savedGame.factorys !== "undefined") factorys = savedGame.factorys;
         }
 
 
@@ -226,7 +310,13 @@
                 Grandmacost: Grandmacost,
                 Grandmas: Grandmas,
                 ovencost: ovencost,
-                ovens: ovens
+                ovens: ovens,
+                farmcost: farmcost,
+                farms: farms,
+                minecost: minecost,
+                mines: mines,
+                factorycost: factorycost,
+                factorys: factorys
             };
             localStorage.setItem("gameSave", JSON.stringify(gameSave));
         }
@@ -253,12 +343,21 @@
             document.getElementById("Grandmas").innerHTML = Grandmas;
             document.getElementById("ovencost").innerHTML = ovencost;
             document.getElementById("ovens").innerHTML = ovens;
+            document.getElementById("farmcost").innerHTML = farmcost;
+            document.getElementById("farms").innerHTML = farms;
+            document.getElementById("minecost").innerHTML = minecost;
+            document.getElementById("mines").innerHTML = mines;
+            document.getElementById("factorycost").innerHTML = factorycost;
+            document.getElementById("factorys").innerHTML = factorys;
         };
 
         setInterval(function() {
             score = score + cursors;
             score = score + Grandmas * 5;
             score = score + ovens * 70;
+            score = score + farms * 20;
+            score = score + mines * 100;
+            score = score + factorys * 200;
             document.getElementById("score").innerHTML = score;
 
             document.title = score + " Oreo - Oreo Clicker";
